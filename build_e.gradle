@@ -1,0 +1,16 @@
+task(hello) << {
+	println "task(hello)"
+}
+task(copy,type:Copy)<<{
+	from(file('srcDir'))
+	into(buildDir)
+}
+//Error: same name task
+tasks.create(name:'hello'){
+	println "task(hello)"
+}
+//Error: same name task
+tasks.create(name:'copy', type:Copy){
+	from(file('srcDir'))
+	into(buildDir)
+}

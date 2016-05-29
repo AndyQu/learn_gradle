@@ -1,0 +1,44 @@
+println project.name
+println path
+println description
+println projectDir
+println buildDir
+println group
+println version
+
+apply plugin:'java'
+
+ext{
+	springVersion="3.1.0.Release"
+	emailNotification="build@master.com"
+}
+
+sourceSets.all{
+	ext.purpose=null
+}
+
+println sourceSets.size()
+	
+sourceSets.findAll({true}).each{println "source set:"+it.name}
+
+sourceSets{
+	main{
+		purpose="production"
+	}
+	test{
+		purpose="test"
+	}
+	plugin{
+		purpose="production"
+	}
+}
+
+sourceSets.findAll({true}).each{println "source set:"+it.name}
+
+task showProps << {
+	println springVersion
+	println emailNotification
+	sourceSets.matching{ it.purpose=='production' }.each{println it.name}
+}
+
+
