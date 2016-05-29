@@ -1,0 +1,66 @@
+defaultTasks 'hello_a'
+
+task hello_a{
+  doLast{
+    println "hello,world"
+  }
+}
+
+task hello_b << {
+  println "hello,mars"
+}
+
+/*
+Error: task upper(dependsOn:count) << {
+count is not defined yet, so will report symbol not exist error
+*/ 
+task upper(dependsOn:'count') << {
+  String name="hello,earch"
+  println "Original:"+name
+  println "UpperCase:"+name.toUpperCase()
+}
+
+task count << {
+  4.times {println it}
+}
+
+task intro(dependsOn:hello_a) << {
+  println "This is XiDaDa"
+}
+
+
+/*
+Dynamic task
+*/
+task "taskOne" << {
+  println "taskOne: dynamically generated task"
+}
+
+4.times {
+  task "task$it" << {
+    println "task$it: i am dynamically generated"
+  }
+}
+
+
+/*
+manipulate task
+*/
+task0.dependsOn task1
+task1.dependsOn task3
+
+hello_a.doFirst { println "hello_a doFirst"}
+hello_a.doLast { println "hello_a doLast" }
+hello_a << {
+  println "hello_a appends"
+}
+
+
+/*
+task properties
+*/
+hello_a.ext.nick_name="hello_a's name is unknown"
+task propTest{
+  println hello_a.nick_name
+}
+
